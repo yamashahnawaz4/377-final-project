@@ -30,7 +30,7 @@ document.querySelectorAll('.save-button').forEach((button) => {
     const author = button.getAttribute('data-author');
     try {
       // Send a POST request to the server
-      const response = await fetch('http://localhost:3000/reading-list', {
+      const response = await fetch('/reading-list', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ title, author }),

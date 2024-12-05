@@ -72,6 +72,11 @@ app.listen(PORT, () => {
 });
 
 
+{
+  "rewrites"; [
+    { "source": "/reading-list", "destination": "/api/reading-list" }
+  ]
+}
 
 
 
