@@ -15,7 +15,10 @@ app.use(bodyParser.json());
 app.use(express.static('public'));
 
 // Supabase setup
-const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_ANON_KEY);
+const SUPABASE_URL = 'https://iycbbgybrnnxegoirtcp.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml5Y2JiZ3licm5ueGVnb2lydGNwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzMzNTY1NDQsImV4cCI6MjA0ODkzMjU0NH0.kJdjbG8wFyqm9tLui7c30pO672bCpAF6hOZqEb_bxks';
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
 
 
 // In-memory reading list (if needed for fallback)
@@ -67,3 +70,8 @@ app.get('/fallback-reading-list', (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
+
+
+
+
+
