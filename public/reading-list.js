@@ -1,37 +1,43 @@
+const SUPABASE_URL = 'https://iycbbgybrnnxegoirtcp.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml5Y2JiZ3licm5ueGVnb2lydGNwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzMzNTY1NDQsImV4cCI6MjA0ODkzMjU0NH0.kJdjbG8wFyqm9tLui7c30pO672bCpAF6hOZqEb_bxks';
+
 document.addEventListener('DOMContentLoaded', async () => {
-    const readingList = document.getElementById('reading-list');
-  
-    try {
-      // Fetch reading list from the server
-      const response = await fetch('/reading-list');
-      const data = await response.json();
-  
-      if (data.length === 0) {
-        readingList.innerHTML = '<p>Your reading list is empty!</p>';
-        return;
-      }
-  
-      data.forEach((book) => {
-        const listItem = document.createElement('li');
-        listItem.innerHTML = `
-          <h3>${book.title}</h3>
-          <p>Author: ${book.author}</p>
-          <button class="remove-button" data-id="${book.id}">Remove</button>
-        `;
-        readingList.appendChild(listItem);
-      });
-  
-      // Add event listeners to remove buttons
-      document.querySelectorAll('.remove-button').forEach((button) => {
-        button.addEventListener('click', async () => {
-          const bookId = button.getAttribute('data-id');
-          await fetch(`/reading-list/${bookId}`, { method: 'DELETE' });
-          button.parentElement.remove();
-        });
-      });
-    } catch (error) {
-      console.error('Error fetching the reading list:', error);
-      readingList.innerHTML = '<p>Failed to load your reading list. Please try again later.</p>';
+  const readingListElement = document.getElementById('reading-list');
+
+  try {
+    const response = await fetch(`${SUPABASE_URL}/rest/v1/reading_list`, {
+      method: 'GET',
+      headers: {
+        apikey: SUPABASE_ANON_KEY,
+        Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch the reading list.');
     }
-  });
-  
+
+    const books = await response.json();
+
+    // Clear any existing content
+    readingListElement.innerHTML = '';
+
+    if (books.length === 0) {
+      readingListElement.innerHTML = '<li>No books in your reading list yet!</li>';
+    } else {
+      // Populate the list
+      books.forEach((book) => {
+        const listItem = document.createElement('li');
+        listItem.textContent = `${book.title} by ${book.author}`;
+        readingListElement.appendChild(listItem);
+      });
+    }
+  } catch (error) {
+    console.error('Error fetching reading list:', error);
+    readingListElement.innerHTML = '<li>Failed to load reading list. Please try again later.</li>';
+  }
+});
+
+
+
