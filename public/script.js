@@ -1,9 +1,84 @@
-// NEW FUNCTION TO INITIALIZE SWIPER SLIDER
+document.addEventListener('DOMContentLoaded', () => {
+  // Initialize the slider for featured books
+  initializeSlider();
+
+  // Add event listener for the book search form
+  const searchForm = document.getElementById('book-search-form');
+  searchForm.addEventListener('submit', async (event) => {
+    event.preventDefault(); // Prevent the form from reloading the page
+
+    const query = document.getElementById('search-query').value.trim();
+    if (!query) return;
+
+    const resultsContainer = document.getElementById('book-results');
+    resultsContainer.innerHTML = '<p>Loading...</p>'; // Show a loading message
+
+    try {
+      const response = await fetch(`https://openlibrary.org/search.json?q=${encodeURIComponent(query)}`);
+      const data = await response.json();
+
+      resultsContainer.innerHTML = ''; // Clear previous results
+
+      if (data.docs && data.docs.length > 0) {
+        data.docs.forEach((book) => {
+          const bookElement = document.createElement('div');
+          bookElement.className = 'book';
+          bookElement.innerHTML = `
+            <h3>${book.title}</h3>
+            <p>${book.author_name ? book.author_name.join(', ') : 'Unknown Author'}</p>
+            <p>First published in: ${book.first_publish_year || 'N/A'}</p>
+            <button class="save-btn" data-title="${book.title}" data-author="${book.author_name ? book.author_name.join(', ') : 'Unknown'}">
+              Save to Reading List
+            </button>
+          `;
+          resultsContainer.appendChild(bookElement);
+        });
+
+        // Add event listeners to the "Save to Reading List" buttons
+        document.querySelectorAll('.save-btn').forEach((button) => {
+          button.addEventListener('click', async (event) => {
+            const title = event.target.getAttribute('data-title');
+            const author = event.target.getAttribute('data-author');
+
+            try {
+              const response = await fetch('http://localhost:3000/reading-list', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ title, author }),
+              });
+
+              if (!response.ok) {
+                throw new Error('Failed to save the book.');
+              }
+
+              alert(`"${title}" by ${author} has been saved to your reading list!`);
+            } catch (error) {
+              console.error('Error saving book:', error);
+              alert('Failed to save the book. Please try again.');
+            }
+          });
+        });
+      } else {
+        resultsContainer.innerHTML = '<p>No results found.</p>';
+      }
+    } catch (error) {
+      console.error('Error fetching book data:', error);
+      resultsContainer.innerHTML = '<p>Error fetching results. Please try again later.</p>';
+    }
+  });
+});
+
+
+// Initialize the Swiper slider
 async function initializeSlider() {
   const response = await fetch('https://openlibrary.org/subjects/fiction.json');
   const data = await response.json();
 
   const swiperWrapper = document.querySelector('.swiper-wrapper');
+  if (!swiperWrapper) return; // Ensure the swiper-wrapper exists
+
   data.works.slice(0, 5).forEach(book => {
     const slide = document.createElement('div');
     slide.className = 'swiper-slide';
@@ -26,8 +101,7 @@ async function initializeSlider() {
   });
 }
 
-// Call the function
-initializeSlider();
+
 
 
 

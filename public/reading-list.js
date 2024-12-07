@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       });
     }
 
-    // Generate Chart with Book Data - NEW CODE
+    // Generate Chart with Book Data 
     generateChart(books);
 
   } catch (error) {
@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 });
 
-// NEW FUNCTION TO GENERATE CHART
+// FUNCTION TO GENERATE CHART
 async function generateChart(data) {
   const ctx = document.getElementById('reading-list-chart').getContext('2d');
   
