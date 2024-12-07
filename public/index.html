@@ -6,6 +6,8 @@
   <title>BookExplorer</title>
   <link rel="stylesheet" href="styles.css">
   <script defer src="script.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css"> <!-- NEW CODE -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script> <!-- NEW CODE -->
 </head>
 <body>
   <header>
@@ -28,12 +30,24 @@
       <h2>Results</h2>
       <div id="book-results"></div>
     </section>
+    <!-- NEW SLIDER SECTION -->
+    <section id="slider-section">
+      <h2>Featured Books</h2>
+      <div class="swiper-container">
+        <div class="swiper-wrapper">
+          <!-- Slides will be dynamically populated -->
+        </div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+      </div>
+    </section>
   </main>
   <footer>
     <p>© 2024 BookExplorer</p>
   </footer>
 </body>
 </html>
+
 
 
 
