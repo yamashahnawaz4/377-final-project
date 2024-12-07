@@ -30,6 +30,12 @@ app.post('/reading-list', async (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
+const cors = require('cors');
+app.use(cors({
+  origin: ['http://localhost:3000', 'https://377-final-project-one.vercel.app/'],
+  methods: ['GET', 'POST'],
+  allowedHeaders: ['Content-Type']
+}));
 
 
 
