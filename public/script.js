@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // Updated: Use a configurable base URL
-  const API_BASE_URL = 'http://localhost:3000'; // Change to your deployed server URL in production
+  // Updated: Use a public backend URL
+  const API_BASE_URL = 'http://localhost:3000'; // <-- Replace with your backend's public URL
 
   // Initialize the slider for featured books
   initializeSlider();
@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Add event listener for the book search form
   const searchForm = document.getElementById('book-search-form');
   searchForm.addEventListener('submit', async (event) => {
-    event.preventDefault(); // Prevent the form from reloading the page
+    event.preventDefault();
 
     const query = document.getElementById('search-query').value.trim();
     if (!query) return;
@@ -44,8 +44,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const author = event.target.getAttribute('data-author');
 
             try {
-              // Updated: Use the configurable base URL
-              const response = await fetch(`${API_BASE_URL}/reading-list`, { 
+              // Updated: Use the public backend URL
+              const response = await fetch(`${API_BASE_URL}/reading-list`, {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json',
@@ -80,7 +80,7 @@ async function initializeSlider() {
   const data = await response.json();
 
   const swiperWrapper = document.querySelector('.swiper-wrapper');
-  if (!swiperWrapper) return; // Ensure the swiper-wrapper exists
+  if (!swiperWrapper) return;
 
   data.works.slice(0, 5).forEach(book => {
     const slide = document.createElement('div');
@@ -93,7 +93,6 @@ async function initializeSlider() {
     swiperWrapper.appendChild(slide);
   });
 
-  // Initialize Swiper
   new Swiper('.swiper-container', {
     navigation: {
       nextEl: '.swiper-button-next',
@@ -104,37 +103,6 @@ async function initializeSlider() {
   });
 }
 
-
-
-// Initialize the Swiper slider
-async function initializeSlider() {
-  const response = await fetch('https://openlibrary.org/subjects/fiction.json');
-  const data = await response.json();
-
-  const swiperWrapper = document.querySelector('.swiper-wrapper');
-  if (!swiperWrapper) return; // Ensure the swiper-wrapper exists
-
-  data.works.slice(0, 5).forEach(book => {
-    const slide = document.createElement('div');
-    slide.className = 'swiper-slide';
-    slide.innerHTML = `
-      <img src="https://covers.openlibrary.org/b/id/${book.cover_id}-L.jpg" alt="${book.title}">
-      <h3>${book.title}</h3>
-      <p>by ${book.authors?.[0]?.name || 'Unknown'}</p>
-    `;
-    swiperWrapper.appendChild(slide);
-  });
-
-  // Initialize Swiper
-  new Swiper('.swiper-container', {
-    navigation: {
-      nextEl: '.swiper-button-next',
-      prevEl: '.swiper-button-prev',
-    },
-    loop: true,
-    autoplay: { delay: 5000 },
-  });
-}
 
 
 
