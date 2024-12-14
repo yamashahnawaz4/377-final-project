@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
   // Updated: Use a public backend URL
-  const API_BASE_URL = 'https://iycbbgybrnnxegoirtcp.supabase.co'; // <-- Replace with your backend's public URL
+  const API_BASE_URL = 'http://localhost:3000'; // <-- Replace with your backend's public URL
 
   // Initialize the slider for featured books
   initializeSlider();
