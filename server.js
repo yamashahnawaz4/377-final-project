@@ -1,7 +1,7 @@
 const SUPABASE_URL = 'https://iycbbgybrnnxegoirtcp.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml5Y2JiZ3licm5ueGVnb2lydGNwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzMzNTY1NDQsImV4cCI6MjA0ODkzMjU0NH0.kJdjbG8wFyqm9tLui7c30pO672bCpAF6hOZqEb_bxks';
 
-const API_BASE_URL = '377-final-project-l0s3jm1r5-yamashahnawaz4s-projects.vercel.app'; // Replace with your actual deployed backend URL
+const API_BASE_URL = 'http://localhost:3000'; // Replace with your actual deployed backend URL
 
 const express = require('express');
 const path = require('path');
@@ -43,7 +43,7 @@ app.post('/reading-list', (req, res) => {
 
 // Start the server
 app.listen(PORT, () => {
-    console.log(`BookExplorer is running at 377-final-project-l0s3jm1r5-yamashahnawaz4s-projects.vercel.app`);
+    console.log(`BookExplorer is running at http://localhost:3000`);
 });
 
 
