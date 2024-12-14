@@ -5,14 +5,15 @@ document.addEventListener('DOMContentLoaded', async () => {
   const readingListElement = document.getElementById('reading-list');
 
   try {
-    const response = await fetch(`${SUPABASE_URL}/rest/v1/reading_list`, {
-      method: 'GET',
-      headers: {
-        apikey: SUPABASE_ANON_KEY,
-        Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
-        'Content-Type': 'application/json',
-      },
-    });
+const response = await fetch('http://localhost:3000/reading-list', {
+  method: 'GET',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+
+
+
 
     if (!response.ok) {
       throw new Error('Failed to fetch the reading list.');
