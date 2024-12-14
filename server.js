@@ -1,91 +1,53 @@
-require('dotenv').config(); // Load environment variables
-const express = require('express');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const { createClient } = require('@supabase/supabase-js');
-const path = require('path'); // Required to serve static files
-
-// Environment variables
 const SUPABASE_URL = 'https://iycbbgybrnnxegoirtcp.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml5Y2JiZ3licm5ueGVnb2lydGNwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzMzNTY1NDQsImV4cCI6MjA0ODkzMjU0NH0.kJdjbG8wFyqm9tLui7c30pO672bCpAF6hOZqEb_bxks';
-const PORT = process.env.PORT || 3000;
 
-if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
-  console.error("Supabase credentials are missing. Check your .env file.");
-  process.exit(1);
-}
+const API_BASE_URL = 'https://vercel.com/yamashahnawaz4s-projects/377-final-project'; // Replace with your actual deployed backend URL
 
-// Initialize Supabase client
-const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const express = require('express');
+const path = require('path');
+const cors = require('cors');
+const bodyParser = require('body-parser');
 
-// Initialize Express app
 const app = express();
+const PORT = 3000;
 
 // Middleware
-app.use(cors({
-  origin: ['https://vercel.com/yamashahnawaz4s-projects/377-final-project'],
-  methods: ['GET', 'POST', 'DELETE'],
-  allowedHeaders: ['Content-Type'],
-}));
+app.use(cors());
 app.use(bodyParser.json());
 
-// Serve static files from the 'public' directory
+// Serve static files from the "public" directory
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Routes
+// Root route serves the main app
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html')); // Serve the home page
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// Fetch reading list
-app.get('/reading-list', async (req, res) => {
-  try {
-    const { data, error } = await supabase.from('reading_list').select('*');
-    if (error) throw error;
-    res.json(data);
-  } catch (err) {
-    res.status(500).json({ error: 'Error fetching reading list' });
-  }
+// API routes for the reading list
+const readingList = [];
+
+// Get all books in the reading list
+app.get('/reading-list', (req, res) => {
+    res.json(readingList);
 });
 
-// Add book to reading list
-app.post('/reading-list', async (req, res) => {
-  try {
+// Add a new book to the reading list
+app.post('/reading-list', (req, res) => {
     const { title, author } = req.body;
-
     if (!title || !author) {
-      return res.status(400).json({ error: 'Title and Author are required' });
+        return res.status(400).json({ error: 'Title and author are required' });
     }
-
-    const { error } = await supabase.from('reading_list').insert([{ title, author }]);
-    if (error) throw error;
-    res.status(201).send('Book added to reading list!');
-  } catch (err) {
-    res.status(500).json({ error: 'Error adding book to reading list' });
-  }
-});
-
-// Delete a book from the reading list
-app.delete('/reading-list/:id', async (req, res) => {
-  try {
-    const { id } = req.params;
-
-    if (!id) {
-      return res.status(400).json({ error: 'Book ID is required' });
-    }
-
-    const { error } = await supabase.from('reading_list').delete().eq('id', id);
-    if (error) throw error;
-    res.status(200).send('Book deleted from reading list!');
-  } catch (err) {
-    res.status(500).json({ error: 'Error deleting book from reading list' });
-  }
+    readingList.push({ title, author });
+    res.status(201).json({ message: 'Book added to the reading list' });
 });
 
 // Start the server
 app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+    console.log(`BookExplorer is running at https://vercel.com/yamashahnawaz4s-projects/377-final-project`);
 });
+
+
+
 
 
 
