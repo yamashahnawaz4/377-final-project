@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
   // Updated: Use a public backend URL
-  const API_BASE_URL = 'https://vercel.com/yamashahnawaz4s-projects/377-final-project'; // <-- Replace with your backend's public URL
+  const API_BASE_URL = 'https://iycbbgybrnnxegoirtcp.supabase.co'; // <-- Replace with your backend's public URL
 
   // Initialize the slider for featured books
   initializeSlider();
