@@ -23,7 +23,7 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin: ['https://377-final-project.vercel.app'],
+  origin: ['https://vercel.com/yamashahnawaz4s-projects/377-final-project'],
   methods: ['GET', 'POST', 'DELETE'],
   allowedHeaders: ['Content-Type'],
 }));
