@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const readingListElement = document.getElementById('reading-list');
 
   try {
-const response = await fetch('http://localhost:3000/reading-list', {
+const response = await fetch('https://vercel.com/yamashahnawaz4s-projects/377-final-project/reading-list', {
   method: 'GET',
   headers: {
     'Content-Type': 'application/json',

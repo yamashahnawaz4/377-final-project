@@ -8,7 +8,6 @@ const path = require('path'); // Required to serve static files
 // Environment variables
 const SUPABASE_URL = 'https://iycbbgybrnnxegoirtcp.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml5Y2JiZ3licm5ueGVnb2lydGNwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzMzNTY1NDQsImV4cCI6MjA0ODkzMjU0NH0.kJdjbG8wFyqm9tLui7c30pO672bCpAF6hOZqEb_bxks';
-
 const PORT = process.env.PORT || 3000;
 
 if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
@@ -24,7 +23,7 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin: ['http://127.0.0.1:5500', 'http://localhost:3000'],
+  origin: ['https://377-final-project.vercel.app'],
   methods: ['GET', 'POST', 'DELETE'],
   allowedHeaders: ['Content-Type'],
 }));
