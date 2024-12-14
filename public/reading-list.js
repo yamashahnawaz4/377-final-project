@@ -33,49 +33,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         readingListElement.appendChild(listItem);
       });
     }
-
-    // Generate Chart with Book Data 
-    generateChart(books);
-
   } catch (error) {
     console.error('Error fetching reading list:', error);
     readingListElement.innerHTML = '<li>Failed to load reading list. Please try again later.</li>';
   }
 });
-
-// FUNCTION TO GENERATE CHART
-async function generateChart(data) {
-  const ctx = document.getElementById('reading-list-chart').getContext('2d');
-  
-  const authors = {}; // Count books by author
-  data.forEach(book => {
-    const author = book.author || 'Unknown';
-    authors[author] = (authors[author] || 0) + 1;
-  });
-
-  new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: Object.keys(authors),
-      datasets: [{
-        label: 'Number of Books',
-        data: Object.values(authors),
-        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-        borderColor: 'rgba(75, 192, 192, 1)',
-        borderWidth: 1,
-      }],
-    },
-    options: {
-      responsive: true,
-      scales: {
-        y: {
-          beginAtZero: true,
-        },
-      },
-    },
-  });
-}
-
-
-
-

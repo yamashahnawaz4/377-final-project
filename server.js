@@ -4,16 +4,10 @@ const bodyParser = require('body-parser');
 const { createClient } = require('@supabase/supabase-js');
 require('dotenv').config();
 
-const SUPABASE_URL = 'https://iycbbgybrnnxegoirtcp.supabase.co';
-
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml5Y2JiZ3licm5ueGVnb2lydGNwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzMzNTY1NDQsImV4cCI6MjA0ODkzMjU0NH0.kJdjbG8wFyqm9tLui7c30pO672bCpAF6hOZqEb_bxks';
-
-
-
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_ANON_KEY);
 
 app.use(cors({ origin: 'http://127.0.0.1:5500', methods: ['GET', 'POST'], allowedHeaders: ['Content-Type'] }));
 app.use(bodyParser.json());
@@ -36,18 +30,3 @@ app.post('/reading-list', async (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
-
-app.use(cors({
-  origin: ['http://localhost:3000', 'https://377-final-project-one.vercel.app/'],
-  methods: ['GET', 'POST'],
-  allowedHeaders: ['Content-Type']
-}));
-
-
-
-
-
-
-
-
-
