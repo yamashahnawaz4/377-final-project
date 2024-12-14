@@ -1,50 +1,82 @@
-const SUPABASE_URL = 'https://iycbbgybrnnxegoirtcp.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml5Y2JiZ3licm5ueGVnb2lydGNwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzMzNTY1NDQsImV4cCI6MjA0ODkzMjU0NH0.kJdjbG8wFyqm9tLui7c30pO672bCpAF6hOZqEb_bxks';
-
-const API_BASE_URL = 'http://localhost:3000'; // Replace with your actual deployed backend URL
+require('dotenv').config();
 
 const express = require('express');
-const path = require('path');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const { createClient } = require('@supabase/supabase-js');
 
+// App setup
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
+app.use(express.static('public'));
 
-// Serve static files from the "public" directory
-app.use(express.static(path.join(__dirname, 'public')));
+// Supabase setup
+const SUPABASE_URL = 'https://iycbbgybrnnxegoirtcp.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml5Y2JiZ3licm5ueGVnb2lydGNwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzMzNTY1NDQsImV4cCI6MjA0ODkzMjU0NH0.kJdjbG8wFyqm9tLui7c30pO672bCpAF6hOZqEb_bxks';
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-// Root route serves the main app
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+
+
+// In-memory reading list (if needed for fallback)
+let readingList = [];
+
+// Fetch reading list from Supabase
+app.get('/reading-list', async (req, res) => {
+  const { data, error } = await supabase.from('reading_list').select('*');
+  if (error) {
+    return res.status(500).json({ error: error.message });
+  }
+  res.json(data);
 });
 
-// API routes for the reading list
-const readingList = [];
+// Add book to reading list in Supabase
+app.post('/reading-list', async (req, res) => {
+  const { title, author } = req.body;
+  if (!title || !author) {
+    return res.status(400).json({ error: 'Title and author are required' });
+  }
 
-// Get all books in the reading list
-app.get('/reading-list', (req, res) => {
-    res.json(readingList);
+  const { data, error } = await supabase
+    .from('reading_list')
+    .insert([{ title, author }]);
+
+  if (error) {
+    return res.status(500).json({ error: error.message });
+  }
+  res.status(201).json(data);
 });
 
-// Add a new book to the reading list
-app.post('/reading-list', (req, res) => {
-    const { title, author } = req.body;
-    if (!title || !author) {
-        return res.status(400).json({ error: 'Title and author are required' });
-    }
-    readingList.push({ title, author });
-    res.status(201).json({ message: 'Book added to the reading list' });
+// In-memory fallback for `/reading-list` (if Supabase fails)
+app.post('/fallback-reading-list', (req, res) => {
+  const { title, author } = req.body;
+  if (!title || !author) {
+    return res.status(400).json({ error: 'Invalid book data' });
+  }
+
+  const newBook = { id: readingList.length + 1, title, author };
+  readingList.push(newBook);
+  res.status(201).json({ message: 'Book added to in-memory reading list!', newBook });
+});
+
+app.get('/fallback-reading-list', (req, res) => {
+  res.status(200).json(readingList);
 });
 
 // Start the server
 app.listen(PORT, () => {
-    console.log(`BookExplorer is running at http://localhost:3000`);
+  console.log(`Server is running on http://localhost:${PORT}`);
 });
+
+
+{
+  "rewrites"; [
+    { "source": "/reading-list", "destination": "/api/reading-list" }
+  ]
+}
 
 
 

@@ -1,81 +1,39 @@
-const SUPABASE_URL = 'https://iycbbgybrnnxegoirtcp.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml5Y2JiZ3licm5ueGVnb2lydGNwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzMzNTY1NDQsImV4cCI6MjA0ODkzMjU0NH0.kJdjbG8wFyqm9tLui7c30pO672bCpAF6hOZqEb_bxks';
-
 document.addEventListener('DOMContentLoaded', async () => {
-  const readingListElement = document.getElementById('reading-list');
+  const readingList = document.getElementById('reading-list');
 
   try {
-const response = await fetch('http://localhost:3000/reading-list', {
-  method: 'GET',
-  headers: {
-    'Content-Type': 'application/json',
-  },
-});
+    // Fetch reading list from the server
+    const response = await fetch('/reading-list');
+    const data = await response.json();
 
-
-
-
-    if (!response.ok) {
-      throw new Error('Failed to fetch the reading list.');
+    if (data.length === 0) {
+      readingList.innerHTML = '<p>Your reading list is empty!</p>';
+      return;
     }
 
-    const books = await response.json();
+    data.forEach((book) => {
+      const listItem = document.createElement('li');
+      listItem.innerHTML = `
+        <h3>${book.title}</h3>
+        <p>Author: ${book.author}</p>
+        <button class="remove-button" data-id="${book.id}">Remove</button>
+      `;
+      readingList.appendChild(listItem);
+    });
 
-    // Clear any existing content
-    readingListElement.innerHTML = '';
-
-    if (books.length === 0) {
-      readingListElement.innerHTML = '<li>No books in your reading list yet!</li>';
-    } else {
-      // Populate the list
-      books.forEach((book) => {
-        const listItem = document.createElement('li');
-        listItem.textContent = `${book.title} by ${book.author}`;
-        readingListElement.appendChild(listItem);
+    // Add event listeners to remove buttons
+    document.querySelectorAll('.remove-button').forEach((button) => {
+      button.addEventListener('click', async () => {
+        const bookId = button.getAttribute('data-id');
+        await fetch(`/reading-list/${bookId}`, { method: 'DELETE' });
+        button.parentElement.remove();
       });
-    }
-
-    // Generate Chart with Book Data 
-    generateChart(books);
-
+    });
   } catch (error) {
-    console.error('Error fetching reading list:', error);
-    readingListElement.innerHTML = '<li>Failed to load reading list. Please try again later.</li>';
+    console.error('Error fetching the reading list:', error);
+    readingList.innerHTML = '<p>Failed to load your reading list. Please try again later.</p>';
   }
 });
-
-// FUNCTION TO GENERATE CHART
-async function generateChart(data) {
-  const ctx = document.getElementById('reading-list-chart').getContext('2d');
-  
-  const authors = {}; // Count books by author
-  data.forEach(book => {
-    const author = book.author || 'Unknown';
-    authors[author] = (authors[author] || 0) + 1;
-  });
-
-  new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: Object.keys(authors),
-      datasets: [{
-        label: 'Number of Books',
-        data: Object.values(authors),
-        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-        borderColor: 'rgba(75, 192, 192, 1)',
-        borderWidth: 1,
-      }],
-    },
-    options: {
-      responsive: true,
-      scales: {
-        y: {
-          beginAtZero: true,
-        },
-      },
-    },
-  });
-}
 
 
 
