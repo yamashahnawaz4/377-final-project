@@ -102,6 +102,35 @@ document.getElementById('book-search-form').addEventListener('submit', async (ev
 });
 
 
+// Ensure fade-in animation is applied on page load
+window.addEventListener('load', () => {
+  document.body.classList.add('fade-in'); // Trigger fade-in on load
+});
+
+// Add event listeners for navigation links
+document.querySelectorAll('a').forEach((link) => {
+  link.addEventListener('click', (e) => {
+    const targetUrl = e.target.href;
+
+    // Check if the target URL is different from the current page
+    if (targetUrl && targetUrl !== window.location.href) {
+      e.preventDefault();
+
+      // Apply fade-out animation before navigating
+      document.body.classList.add('fade-out');
+
+      setTimeout(() => {
+        window.location.href = targetUrl; // Navigate after animation
+      }, 1000); // Match duration of fade-out animation
+    }
+  });
+});
+
+
+window.onload = () => {
+  document.body.classList.add('fade-in'); // Apply fade-in animation on load
+};
+
 
 
 

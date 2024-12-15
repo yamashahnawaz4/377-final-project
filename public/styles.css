@@ -154,5 +154,124 @@ footer {
 .remove-button:hover {
   background-color: #1565c0; /* Match hover color of .book button */
   transform: translateY(-2px); /* Add slight lift on hover */
+  animation: glow 1.5s ease-in-out infinite; /* Add the glow effect */
 }
+
+/* Keyframes for glow effect */
+@keyframes glow {
+  0%, 100% {
+    box-shadow: 0 0 5px #1e88e5;
+  }
+  50% {
+    box-shadow: 0 0 20px #1e88e5;
+  }
+}
+
+
+/* CSS for Button 85 */
+.button-85 {
+  padding: 0.6em 2em;
+  border: none;
+  outline: none;
+  color: rgb(255, 255, 255);
+  background: #111;
+  cursor: pointer;
+  position: relative;
+  z-index: 0;
+  border-radius: 10px;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.button-85:before {
+  content: "";
+  background: linear-gradient(
+    45deg,
+    #ff0000,
+    #ff7300,
+    #fffb00,
+    #48ff00,
+    #00ffd5,
+    #002bff,
+    #7a00ff,
+    #ff00c8,
+    #ff0000
+  );
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  background-size: 400%;
+  z-index: -1;
+  filter: blur(5px);
+  -webkit-filter: blur(5px);
+  width: calc(100% + 4px);
+  height: calc(100% + 4px);
+  animation: glowing-button-85 20s linear infinite;
+  transition: opacity 0.3s ease-in-out;
+  border-radius: 10px;
+}
+
+@keyframes glowing-button-85 {
+  0% {
+    background-position: 0 0;
+  }
+  50% {
+    background-position: 400% 0;
+  }
+  100% {
+    background-position: 0 0;
+  }
+}
+
+.button-85:after {
+  z-index: -1;
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: #222;
+  left: 0;
+  top: 0;
+  border-radius: 10px;
+}
+.fade-in {
+  animation: fadeIn 1s ease-out forwards;
+}
+
+.fade-out {
+  animation: fadeOut 1s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+
+
+/* Hover effect for text */
+.text-hover {
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.text-hover:hover {
+  color: #ffa726; /* Bright orange */
+  transform: scale(1.1); /* Slightly increase size */
+}
+
+
 

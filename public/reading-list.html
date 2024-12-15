@@ -6,7 +6,35 @@
   <title>Reading List - BookExplorer</title>
   <link rel="stylesheet" href="styles.css">
   <script defer src="reading-list.js"></script>
+  <script defer src="script.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> 
+  <script>
+    window.addEventListener('load', () => {
+        document.body.classList.add('fade-in'); // Trigger fade-in on load
+    });
+
+    document.querySelectorAll('a').forEach((link) => {
+        link.addEventListener('click', (e) => {
+            const targetUrl = e.target.href;
+
+            // Check if the target URL is different from the current page
+            if (targetUrl && targetUrl !== window.location.href) {
+                e.preventDefault();
+
+                // Apply fade-out animation before navigating
+                document.body.classList.add('fade-out');
+
+                setTimeout(() => {
+                    window.location.href = targetUrl; // Navigate after animation
+                }, 1000); // Match duration of fade-out animation
+            }
+        });
+    });
+
+    window.onload = () => {
+        document.body.classList.add('fade-in'); // Apply fade-in animation on load
+    };
+</script>
 </head>
 <body>
   <header>

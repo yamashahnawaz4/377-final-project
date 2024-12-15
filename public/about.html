@@ -5,6 +5,34 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>About - BookExplorer</title>
   <link rel="stylesheet" href="styles.css">
+  <script defer src="script.js"></script>
+  <script>
+    window.addEventListener('load', () => {
+        document.body.classList.add('fade-in'); // Trigger fade-in on load
+    });
+
+    document.querySelectorAll('a').forEach((link) => {
+        link.addEventListener('click', (e) => {
+            const targetUrl = e.target.href;
+
+            // Check if the target URL is different from the current page
+            if (targetUrl && targetUrl !== window.location.href) {
+                e.preventDefault();
+
+                // Apply fade-out animation before navigating
+                document.body.classList.add('fade-out');
+
+                setTimeout(() => {
+                    window.location.href = targetUrl; // Navigate after animation
+                }, 1000); // Match duration of fade-out animation
+            }
+        });
+    });
+
+    window.onload = () => {
+        document.body.classList.add('fade-in'); // Apply fade-in animation on load
+    };
+</script>
 </head>
 <body>
   <header>
@@ -17,31 +45,35 @@
   </header>
   <main>
     <section id="about">
-      <h2>What is BookExplorer?</h2>
-      <p>BookExplorer is an interactive platform for book lovers to discover new books, explore detailed information about them, and manage their personal reading lists.</p>
+      <h2 class="text-hover">What is BookExplorer?</h2>
+      <p class="text-hover">BookExplorer is an interactive platform for book lovers to discover new books, explore detailed information about them, and manage their personal reading lists.</p>
     </section>
+    
     <section id="features">
-      <h2>Features</h2>
+      <h2 class="text-hover">Features</h2>
       <ul>
-        <li>Search and discover books using the Open Library API.</li>
-        <li>Create and manage your own personalized reading list.</li>
-        <li>Explore author information and genre details.</li>
+        <li class="text-hover">Search and discover books using the Open Library API.</li>
+        <li class="text-hover">Create and manage your own personalized reading list.</li>
+        <li class="text-hover">Explore author information and genre details.</li>
       </ul>
     </section>
-      <section id="team">
-        <h2>Our Team</h2>
-        <p>This project was built by a passionate team of students in Professor Suh's INST 377 class.</p>
-        <ul>
-          <li>Diego Moreno</li>
-          <li>Layan Rifai</li>
-          <li>Matthew Chin</li>
-          <li>Sid Gediya</li>
-          <li>Yama Shahnawaz</li>
-        </ul>
+    
+    <section id="team">
+      <h2 class="text-hover">Our Team</h2>
+      <p class="text-hover">This project was built by a passionate team of students in Professor Suh's INST 377 class.</p>
+      <ul>
+        <li class="text-hover">Diego Moreno</li>
+        <li class="text-hover">Layan Rifai</li>
+        <li class="text-hover">Matthew Chin</li>
+        <li class="text-hover">Sid Gediya</li>
+        <li class="text-hover">Yama Shahnawaz</li>
+      </ul>
     </section>
+    
   </main>
   <footer>
     <p>© 2024 BookExplorer</p>
+
   </footer>
 </body>
 </html>
