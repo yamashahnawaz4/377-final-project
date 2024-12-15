@@ -26,10 +26,43 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (books.length === 0) {
       readingListElement.innerHTML = '<li>No books in your reading list yet!</li>';
     } else {
-      // Populate the list
+      // Populate the list with Remove button
       books.forEach((book) => {
         const listItem = document.createElement('li');
         listItem.textContent = `${book.title} by ${book.author}`;
+
+        // Create Remove button
+        const removeButton = document.createElement('button');
+        removeButton.textContent = 'Remove';
+        removeButton.className = 'remove-button';
+        removeButton.addEventListener('click', async () => {
+          try {
+            const response = await fetch(`${SUPABASE_URL}/rest/v1/reading_list?id=eq.${book.id}`, {
+              method: 'DELETE',
+              headers: {
+                apikey: SUPABASE_ANON_KEY,
+                Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+                'Content-Type': 'application/json',
+              },
+            });
+
+            if (response.ok) {
+              alert(`${book.title} by ${book.author} has been removed from your reading list.`);
+              listItem.remove(); // Remove the item from the UI
+
+              // Regenerate the chart after removing the book
+              generateChart(books.filter((b) => b.id !== book.id));
+            } else {
+              const errorData = await response.json();
+              alert(`Error: ${errorData.message}`);
+            }
+          } catch (error) {
+            console.error('Error removing the book:', error);
+            
+          }
+        });
+
+        listItem.appendChild(removeButton);
         readingListElement.appendChild(listItem);
       });
     }
@@ -82,3 +115,4 @@ function generateChart(data) {
     },
   });
 }
+

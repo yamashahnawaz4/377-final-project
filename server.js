@@ -30,3 +30,11 @@ app.post('/reading-list', async (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
+
+// Remove book from reading list
+app.delete('/reading-list/:id', async (req, res) => {
+  const { id } = req.params;
+  const { error } = await supabase.from('reading_list').delete().eq('id', id);
+  if (error) return res.status(500).json({ error: error.message });
+  res.status(200).send('Book removed from reading list!');
+});
