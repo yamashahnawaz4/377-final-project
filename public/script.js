@@ -40,11 +40,17 @@ document.getElementById('book-search-form').addEventListener('submit', async (ev
   const resultsDiv = document.getElementById('book-results');
 
   // Add the loading message
-  const loadingMessage = document.createElement('p');
-  loadingMessage.id = 'loading-message';
-  loadingMessage.textContent = 'Loading... Please wait.';
-  resultsDiv.innerHTML = '';
-  resultsDiv.appendChild(loadingMessage);
+// Add the loading message with a spinner
+const loadingMessage = document.createElement('div');
+loadingMessage.id = 'loading-message';
+loadingMessage.innerHTML = `
+  <div class="spinner"></div>
+  <p>Loading... Please wait.</p>
+`;
+resultsDiv.innerHTML = '';
+resultsDiv.appendChild(loadingMessage);
+
+
 
   try {
     // Fetch book data from Open Library API
