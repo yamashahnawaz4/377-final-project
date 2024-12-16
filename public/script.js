@@ -72,6 +72,7 @@ resultsDiv.appendChild(loadingMessage);
       resultsDiv.appendChild(bookDiv);
     });
 
+
     // Add event listeners to save buttons
     document.querySelectorAll('.save-button').forEach((button) => {
       button.addEventListener('click', async () => {
