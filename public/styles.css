@@ -169,7 +169,7 @@ footer {
 .remove-button {
   margin-left: 10px;
   padding: 5px 15px; /* Same padding as .book button */
-  background-color: #f51a1a; /* Same color as .book button */
+  background-color: #f51a1a; 
   color: white;
   border: none;
   border-radius: 5px;
@@ -179,7 +179,7 @@ footer {
 }
 
 .remove-button:hover {
-  background-color: #1565c0; /* Match hover color of .book button */
+  background-color: #c01d08; /* Match hover color of .book button */
   transform: translateY(-2px); /* Add slight lift on hover */
   animation: glow 1.5s ease-in-out infinite; /* Add the glow effect */
 }
