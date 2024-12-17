@@ -3,12 +3,46 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>About - BookExplorer</title>
+  <title>About</title>
   <link rel="stylesheet" href="styles.css">
+  <script defer src="script.js"></script>
+  <script>
+    window.addEventListener('load', () => {
+        document.body.classList.add('fade-in'); // Trigger fade-in on load
+    });
+
+    document.querySelectorAll('a').forEach((link) => {
+        link.addEventListener('click', (e) => {
+            const targetUrl = e.target.href;
+
+            // Check if the target URL is different from the current page
+            if (targetUrl && targetUrl !== window.location.href) {
+                e.preventDefault();
+
+                // Apply fade-out animation before navigating
+                document.body.classList.add('fade-out');
+
+                setTimeout(() => {
+                    window.location.href = targetUrl; // Navigate after animation
+                }, 1000); // Match duration of fade-out animation
+            }
+        });
+    });
+
+    window.onload = () => {
+        document.body.classList.add('fade-in'); // Apply fade-in animation on load
+    };
+</script>
 </head>
 <body>
   <header>
-    <h1>About BookExplorer</h1>
+    <h1 id="about-book-explorer">
+      <span>A</span><span>b</span><span>o</span><span>u</span><span>t</span>
+      <span>B</span><span>o</span><span>o</span><span>k</span>
+      <span>E</span><span>x</span><span>p</span><span>l</span><span>o</span><span>r</span><span>e</span><span>r</span>
+    </h1>
+    
+    <h1>About</h1>
     <nav>
       <a href="index.html">Home</a>
       <a href="about.html" class="active">About</a>
@@ -17,31 +51,38 @@
   </header>
   <main>
     <section id="about">
-      <h2>What is BookExplorer?</h2>
-      <p>BookExplorer is an interactive platform for book lovers to discover new books, explore detailed information about them, and manage their personal reading lists.</p>
+      <h2 class="text-hover">What is BookExplorer?</h2>
+      <p class="text-hover">BookExplorer is an interactive platform for book lovers to discover new books, explore detailed information about them, and manage their personal reading lists.</p>
     </section>
+    
     <section id="features">
-      <h2>Features</h2>
+      <h2 class="text-hover">Features</h2>
       <ul>
-        <li>Search and discover books using the Open Library API.</li>
-        <li>Create and manage your own personalized reading list.</li>
-        <li>Explore author information and genre details.</li>
+        <p class="text-hover">Search and discover books using the Open Library API.</li>
+        <p class="text-hover">Create and manage your own personalized reading list.</li>
+        <p class="text-hover">Explore author information and genre details.</li>
       </ul>
     </section>
-      <section id="team">
-        <h2>Our Team</h2>
-        <p>This project was built by a passionate team of students in Professor Suh's INST 377 class.</p>
+    
+    <section id="team">
+      <h2 class="text-hover">Our Team</h2>
+      <p class="text-hover">This project was built by a passionate team of students in Professor Suh's INST 377 class.</p>
+      <ul>
         <ul>
-          <li>Diego Moreno</li>
-          <li>Layan Rifai</li>
-          <li>Matthew Chin</li>
-          <li>Sid Gediya</li>
-          <li>Yama Shahnawaz</li>
+          <li id="diego">Diego Moreno</li><br>
+          <li id="layan">Layan Rifai</li><br>
+          <li id="matthew">Matthew Chin</li><br>
+          <li id="sid">Sid Gediya</li><br>
+          <li id="yama">Yama Shahnawaz</li>
         </ul>
+        
+      
     </section>
+    
   </main>
   <footer>
     <p>© 2024 BookExplorer</p>
+
   </footer>
 </body>
 </html>

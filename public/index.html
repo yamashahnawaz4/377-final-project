@@ -11,7 +11,11 @@
 </head>
 <body>
   <header>
-    <h1>BookExplorer</h1>
+    <h1 id="book-explorer">
+      <span>B</span><span>o</span><span>o</span><span>k</span>
+      <span>E</span><span>x</span><span>p</span><span>l</span><span>o</span><span>r</span><span>e</span><span>r</span>
+    </h1>
+    
     <nav>
       <a href="index.html">Home</a>
       <a href="about.html">About</a>
@@ -23,7 +27,7 @@
       <h2>Search for Books</h2>
       <form id="book-search-form">
         <input type="text" id="search-query" placeholder="Search for a book..." required>
-        <button type="submit">Search</button>
+        <button class="button-85" role="button">Search</button>
       </form>
     </section>
     <section id="results">
@@ -32,7 +36,8 @@
     </section>
     <!--SLIDER SECTION -->
     <section id="slider-section">
-      <h2>Featured Books</h2>
+      <h2 class="wobble-glow">Featured Books</h2>
+
       <div class="swiper-container">
         <div class="swiper-wrapper">
           <!-- Slides will be dynamically populated -->

@@ -40,11 +40,17 @@ document.getElementById('book-search-form').addEventListener('submit', async (ev
   const resultsDiv = document.getElementById('book-results');
 
   // Add the loading message
-  const loadingMessage = document.createElement('p');
-  loadingMessage.id = 'loading-message';
-  loadingMessage.textContent = 'Loading... Please wait.';
-  resultsDiv.innerHTML = '';
-  resultsDiv.appendChild(loadingMessage);
+// Add the loading message with a spinner
+const loadingMessage = document.createElement('div');
+loadingMessage.id = 'loading-message';
+loadingMessage.innerHTML = `
+  <div class="spinner"></div>
+  <p>Loading... Please wait.</p>
+`;
+resultsDiv.innerHTML = '';
+resultsDiv.appendChild(loadingMessage);
+
+
 
   try {
     // Fetch book data from Open Library API
@@ -65,6 +71,7 @@ document.getElementById('book-search-form').addEventListener('submit', async (ev
       `;
       resultsDiv.appendChild(bookDiv);
     });
+
 
     // Add event listeners to save buttons
     document.querySelectorAll('.save-button').forEach((button) => {
@@ -101,6 +108,35 @@ document.getElementById('book-search-form').addEventListener('submit', async (ev
   }
 });
 
+
+// Ensure fade-in animation is applied on page load
+window.addEventListener('load', () => {
+  document.body.classList.add('fade-in'); // Trigger fade-in on load
+});
+
+// Add event listeners for navigation links
+document.querySelectorAll('a').forEach((link) => {
+  link.addEventListener('click', (e) => {
+    const targetUrl = e.target.href;
+
+    // Check if the target URL is different from the current page
+    if (targetUrl && targetUrl !== window.location.href) {
+      e.preventDefault();
+
+      // Apply fade-out animation before navigating
+      document.body.classList.add('fade-out');
+
+      setTimeout(() => {
+        window.location.href = targetUrl; // Navigate after animation
+      }, 1000); // Match duration of fade-out animation
+    }
+  });
+});
+
+
+window.onload = () => {
+  document.body.classList.add('fade-in'); // Apply fade-in animation on load
+};
 
 
 

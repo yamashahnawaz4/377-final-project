@@ -29,6 +29,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       // Populate the list with Remove button
       books.forEach((book) => {
         const listItem = document.createElement('li');
+        listItem.className = 'listItem';
         listItem.textContent = `${book.title} by ${book.author}`;
 
         // Create Remove button
